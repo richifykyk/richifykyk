@@ -1,0 +1,64 @@
+
+import asyncio
+from aiogram import Bot, Dispatcher, F
+from aiogram.filters import CommandStart
+from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
+
+import os
+
+TOKEN = os.getenv("BOT_TOKEN")
+
+bot = Bot(token=TOKEN)
+dp = Dispatcher()
+
+keyboard = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="⭐ Stars"),
+         KeyboardButton(text="💎 TON")],
+        [KeyboardButton(text="🎁 Gifts"),
+         KeyboardButton(text="🖼 NFT")],
+        [KeyboardButton(text="🔑 NFT Rental"),
+         KeyboardButton(text="👤 Profile")]
+    ],
+    resize_keyboard=True
+)
+
+@dp.message(CommandStart())
+async def start(message: Message):
+    await message.answer(
+        "🖤 Welcome to RICHSTARS\n\n"
+        "Premium digital marketplace.",
+        reply_markup=keyboard
+    )
+
+@dp.message(F.text == "⭐ Stars")
+async def stars(message: Message):
+    await message.answer("⭐ Stars catalog is coming soon.")
+
+@dp.message(F.text == "💎 TON")
+async def ton(message: Message):
+    await message.answer("💎 TON section is coming soon.")
+
+@dp.message(F.text == "🎁 Gifts")
+async def gifts(message: Message):
+    await message.answer("🎁 Gifts catalog is coming soon.")
+
+@dp.message(F.text == "🖼 NFT")
+async def nft(message: Message):
+    await message.answer("🖼 NFT catalog is coming soon.")
+
+@dp.message(F.text == "🔑 NFT Rental")
+async def rental(message: Message):
+    await message.answer("🔑 NFT rental section is coming soon.")
+
+@dp.message(F.text == "👤 Profile")
+async def profile(message: Message):
+    await message.answer(
+        f"👤 Your ID: {message.from_user.id}"
+    )
+
+async def main():
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
